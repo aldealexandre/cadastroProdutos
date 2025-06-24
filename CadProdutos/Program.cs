@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Windows.Markup;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +41,22 @@ app.MapPost("/produtos", (Produto novoProduto) =>
 {
     produtos.Add(novoProduto);
     return Results.Created();
+});
+
+app.MapPut("/produtos/{id}", (int id, Produto produtoAtualizado) =>
+{
+    var produto = produtos.FirstOrDefault(x => x.Id == id);
+
+    if (produto is null)
+    {
+        return Results.NotFound($"Produto com {id} não encontrado.");
+    }
+
+    produto.Nome = produtoAtualizado.Nome;
+    produto.Preco = produtoAtualizado.Preco;
+    produto.Estoque = produtoAtualizado.Estoque;
+
+    return Results.Ok(produto);
 });
 
 app.Run();
