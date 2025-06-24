@@ -5,10 +5,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Usar controllers para as rotas
+builder.Services.AddControllers();
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Configurar os controllers para as rotas (end points)
+app.MapControllers();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -75,7 +83,7 @@ app.MapDelete("/produtos/{id}", (int id) =>
 
 app.Run();
 
-class Produto
+public class Produto
 {
     public int Id { get; set; }
     public string? Nome { get; set; }
