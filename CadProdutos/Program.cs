@@ -49,7 +49,7 @@ app.MapPut("/produtos/{id}", (int id, Produto produtoAtualizado) =>
 
     if (produto is null)
     {
-        return Results.NotFound($"Produto com {id} não encontrado.");
+        return Results.NotFound($"Produto com ID {id} não encontrado.");
     }
 
     produto.Nome = produtoAtualizado.Nome;
@@ -57,6 +57,20 @@ app.MapPut("/produtos/{id}", (int id, Produto produtoAtualizado) =>
     produto.Estoque = produtoAtualizado.Estoque;
 
     return Results.Ok(produto);
+});
+
+app.MapDelete("/produtos/{id}", (int id) =>
+{
+    var produto = produtos.FirstOrDefault(x => x.Id == id);
+
+    if (produto is null)
+    {
+        return Results.NotFound($"Produto com ID {id} não encontrado.");
+    }
+
+    produtos.Remove(produto);
+
+    return Results.NoContent();
 });
 
 app.Run();
