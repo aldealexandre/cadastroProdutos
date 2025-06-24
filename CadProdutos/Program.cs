@@ -36,6 +36,12 @@ app.MapGet("/produtos/{id}", (int id) =>
     return produto is not null ? Results.Ok(produto) : Results.NotFound($"Produto com ID {id} não encontrado.");
 });
 
+app.MapPost("/produtos", (Produto novoProduto) =>
+{
+    produtos.Add(novoProduto);
+    return Results.Created();
+});
+
 app.Run();
 
 class Produto
